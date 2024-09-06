@@ -2,9 +2,9 @@ import {DataTable} from "@/components/ui/data-table";
 import AnalyticsCard from "@/components/dashboard/analytics-card";
 import {Button} from "@/components/ui/button";
 import {fetchUsers} from "@/lib/data";
-import { topCustomersColumns } from "@/components/dashboard/top-customers";
-
-async function getCustomers() {
+import {Customers} from "@/components/dashboard/top-customers";
+import {columns} from "./columns";
+async function getCustomers(): Promise<Customers[]> {
   const res = await fetchUsers();
   return res;
 }
@@ -17,7 +17,7 @@ export default async function page() {
         title="Customers"
         subTitle="Showing all customers with orders">
         <Button className="mb-3">Add New Customer</Button>
-        <DataTable columns={topCustomersColumns} data={data} />
+        <DataTable columns={columns} data={data} />
       </AnalyticsCard>
     </section>
   );
