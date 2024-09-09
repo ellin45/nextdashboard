@@ -3,8 +3,7 @@ import Image from "next/image";
 import {ColumnDef} from "@tanstack/react-table";
 import {MoreHorizontal} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import {formatDate} from "@/utils/formatDate";
-import {formatPrice} from "@/utils/formatPrice";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,34 +12,43 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {formatPrice} from "@/utils/formatPrice";
 
-export type Orders = {
+export type Products = {
   id: string | number;
-  orderNumber: string;
-  totalAmount: number;
-  data: number;
+  name: string;
+  price: number;
+  revenue: number;
+  image: string;
 };
-export const columns: ColumnDef<Orders>[] = [
+export const columns: ColumnDef<Products>[] = [
   {
-    accessorKey: "orderNumber",
-    header: "orderNumber",
+    accessorKey: "name",
+    header: "Name",
   },
   {
-    accessorKey: "totalAmount",
-    header: "totalAmount",
+    accessorKey: "price",
+    header: "Price",
     cell: ({row}) => {
-      const totalAmount = row.getValue("totalAmount") as number;
-      return <>{formatPrice(totalAmount)}</>;
+      const totalPrice = row.getValue("totalAmount") as number;
+      return <>{formatPrice(totalPrice)}</>;
     },
   },
   {
-    accessorKey: "date",
-    header: "date",
+    accessorKey: "image",
+    header: "Image",
     cell: ({row}) => {
-      const dateTimeStamp = row.getValue("date") as number;
-      const dateObject = new Date(dateTimeStamp);
+      const imageUrl = row.getValue("image") as string;
 
-      return <span className="text-nowrap">{formatDate(dateObject)}</span>;
+      return (
+        <Image
+          src={imageUrl}
+          width={50}
+          height={50}
+          alt={`Product Image`}
+          className="border-2 border-primary"
+        />
+      );
     },
   },
   {
@@ -57,9 +65,9 @@ export const columns: ColumnDef<Orders>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem> View Order Details</DropdownMenuItem>
+            <DropdownMenuItem> Edit Product</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem>View Product</DropdownMenuItem>
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -5,7 +5,7 @@ export const fetchUsers = async () => {
   try {
     connectToDB();
     const user = await User.find();
-  
+
     console.log("User", user);
     return user;
   } catch (err) {
@@ -16,7 +16,6 @@ export const fetchUsers = async () => {
 export const fetchProducts = async () => {
   try {
     connectToDB();
-
 
     const product = await Product.find();
 

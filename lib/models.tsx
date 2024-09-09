@@ -30,32 +30,22 @@ const userSchema = new mongoose.Schema(
 );
 
 const productSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    unique: true,
+  isAdmin: {
+    type: Boolean,
   },
-  desc: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
-  stock: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
-  img: {
+  name: {
     type: String,
   },
-  color: {
+  image: {
     type: String,
   },
-  size: {
+  isApproved: {
+    type: Boolean,
+  },
+  email: {
+    type: String,
+  },
+  id: {
     type: String,
   },
 });
