@@ -1,6 +1,6 @@
 import {User, Product} from "./models";
 import {connectToDB} from "./utils";
-import mongoose from "mongoose";
+
 export const fetchUsers = async () => {
   try {
     connectToDB();
