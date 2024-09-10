@@ -14,11 +14,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+
 export type Orders = {
   id: string | number;
   orderNumber: string;
   totalAmount: number;
-  data: number;
+  date: number;
 };
 export const columns: ColumnDef<Orders>[] = [
   {
