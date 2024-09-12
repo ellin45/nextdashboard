@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import Logo from "./logo";
 import MenuToggle from "./menu-toggle";
@@ -6,22 +6,27 @@ import {ModeToggle} from "./mode-toggle";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {useEffect, useState} from "react";
 import useRouteCheck from "@/hooks/useRouteCheck";
+import {Session} from "next-auth";
 
-const Navbar = () => {
-  const [loading, setLoading] = useState(true);
+type NavbarProps = {
+  session: Session | null;
+};
+const Navbar = (session: NavbarProps) => {
+  const [loading, setIsLoading] = useState(true);
   const loginRoute = useRouteCheck(["login"]);
   const registerRoute = useRouteCheck(["register"]);
   const onboardingRoute = useRouteCheck(["onboarding"]);
+  const user = session.session?.user;
   // if(loginRoute || registerRoute) return ;
   useEffect(() => {
-    if (!loginRoute && registerRoute && onboardingRoute) {
-      setLoading(false);
+    if (!loginRoute && !onboardingRoute && !registerRoute) {
+      setIsLoading(false);
     }
   }, [loginRoute, registerRoute, onboardingRoute]);
 
   if (loading || loginRoute || registerRoute || onboardingRoute) return null;
   return (
-    <div className="py-4 border-b">
+    <nav className="py-4 border-b">
       <div className="md:w-[95%] w-[92%] mx-auto flex items-center justify-between">
         <div className="flex items-center gap-5">
           <Logo />
@@ -29,14 +34,14 @@ const Navbar = () => {
         </div>
         <div className="flex gap-8 items-center">
           <ModeToggle />
-          <span className="max-md:hidden">Welcome Back Ellin</span>
+          <span className="max-md:hidden">Welcome Back {user?.name}</span>
           <Avatar>
-            <AvatarImage src="avatar-image.avif" />
+            <AvatarImage src={user?.image ?? undefined} />
             <AvatarFallback>ME</AvatarFallback>
           </Avatar>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

@@ -7,12 +7,20 @@ import {HorizontalGraph} from "@/components/dashboard/horizontal-bar-chart";
 import {TopCustomers} from "@/components/dashboard/top-customers";
 import {fetchUsers} from "@/lib/data";
 import {Customers} from "@/components/dashboard/top-customers";
+import {redirect} from "next/navigation";
+import {auth} from "@/server/auth";
 async function getCustomers(): Promise<Customers[]> {
   const res = await fetchUsers();
   return res;
 }
 
 export default async function Home() {
+  const session = await auth();
+  // CHECK IF A USER IS SIGNED IN
+
+  if (!session) {
+    redirect("/login");
+  }
   const data = await getCustomers();
 
   const topCustomers = data.sort((a, b) => b.orders - a.orders).slice(0, 4);

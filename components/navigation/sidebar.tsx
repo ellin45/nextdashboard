@@ -11,11 +11,11 @@ export default function Sidebar() {
   const loginRoute = useRouteCheck(["login"]);
   const registerRoute = useRouteCheck(["register"]);
   const onboardingRoute = useRouteCheck(["onboarding"]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setIsLoading] = useState(true);
   // if(loginRoute || registerRoute) return ;
   useEffect(() => {
-    if (!loginRoute && registerRoute && onboardingRoute) {
-      setLoading(false);
+    if (!loginRoute && !onboardingRoute && !registerRoute) {
+      setIsLoading(false);
     }
   }, [loginRoute, registerRoute, onboardingRoute]);
 

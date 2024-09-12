@@ -1,16 +1,17 @@
-import { MongoClient } from 'mongodb';
+import mongoose from "mongoose";
 
-const uri = process.env.MONGO_URI as string;
+const uri = process.env.MONGODB_URI as string;
 
-let client: MongoClient | null = null;
-
-const connectDB = async (): Promise<MongoClient> => {
-  if (!client) {
-    client = new MongoClient(uri);
-    await client.connect();
-    console.log('MongoDB connected successfully');
+const db = async () => {
+  if (mongoose.connection.readyState === 0) {
+    try {
+      await mongoose.connect(uri);
+      console.log("MongoDB connected successfully using Mongoose");
+    } catch (error) {
+      console.error("Failed to connect to MongoDB", error);
+      throw new Error("Failed to connect to MongoDB");
+    }
   }
-  return client;
 };
 
-export default connectDB;
+export default db;
